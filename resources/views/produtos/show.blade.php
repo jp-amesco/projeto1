@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Produtos - {{$produto->titulo}}</title>
-</head>
-<body>
+@extends('layout.app')
+@section('title', $produto->titulo)
+@section('content')
     <h1>Produtos - {{$produto->titulo}}</h1>
     <ul>
         <li><strong>SKU</strong>{{$produto->sku}}</li>
@@ -15,5 +9,4 @@
     </ul>
     <p>{{$produto->descricao}}</p>
     <a href="javascript:history.go(-1)">Voltar</a>
-</body>
-</html>
+@endsection
