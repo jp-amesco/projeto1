@@ -8,6 +8,19 @@
     </div>
     @endif
     <div class="row">
+        <div class="col-md-12">
+                <form method="POST" action="{{url('produtos/busca')}}">
+                    {{ csrf_field() }}
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="busca" id="busca" placeholder="Buscar..." value="{{$buscar}}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary"></button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="row">
         @foreach($produtos as $produto)
         <div class="col-md-3">
             @if(file_exists("./img/produtos/".md5($produto->id).".jpg"))
