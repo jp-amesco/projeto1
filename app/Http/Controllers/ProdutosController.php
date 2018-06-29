@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Produtos;
+use Illuminate\Support\Facades\Auth;
 
 class ProdutosController extends Controller
 {
     public function index(){
-        $produtos = Produtos::all();
+        $produtos = Produtos::paginate(8);
         return view('produtos.index', array('produtos' => $produtos, 'buscar' => null));
     }
 
@@ -18,7 +19,11 @@ class ProdutosController extends Controller
     }
 
     public function create(){
-        return view('produtos.create');
+        if(Auth::check()){        
+         return view('produtos.create');
+        }else{
+            return redirect('login');
+        };
     }
 
     public function store(Request $request){
@@ -41,8 +46,12 @@ class ProdutosController extends Controller
     }
 
     public function edit($id){
-        $produto = Produtos::find($id);
+        if(Auth::check()){        
+            $produto = Produtos::find($id);
         return view('produtos.edit', compact('produto', 'id'));
+        }else{
+           return redirect('login');
+        };
     }
 
     public function update(Request $request, $id){
@@ -84,7 +93,7 @@ class ProdutosController extends Controller
 
     public function busca(Request $request){
         $buscainput = $request->input('busca');
-        $produtos = Produtos::where('titulo', 'LIKE', '%'.$buscainput.'%')->orwhere('descricao','LIKE', '%'.$buscainput.'%')->get();
+        $produtos = Produtos::where('titulo', 'LIKE', '%'.$buscainput.'%')->orwhere('descricao','LIKE', '%'.$buscainput.'%')->paginate(8);
         return view('produtos.index', array('produtos' => $produtos, 'buscar'=>$buscainput));
     }
 }
